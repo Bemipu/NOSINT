@@ -10,8 +10,11 @@
     "content_scripts": [
         {
           "matches": ["<all_urls>"],
-          "js": ["worker.js"]
+          "js": ["script.js"]
         }
     ],
-    "permissions": ["tabs"]
+    "background": {
+      "service_worker": "background.js"
+    },
+    "permissions": ["tabs", "storage"]
 }
