@@ -1,6 +1,7 @@
 //alert('Hello');
 let isEnabled = true;
 
+
 // Get Current URL.
 chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     let currentUrl = tabs[0].url;
