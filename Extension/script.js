@@ -1,3 +1,4 @@
+// Interaction with webpage
 // Listen Form Submit Event
 let currentUrl;
 let isEnabled;

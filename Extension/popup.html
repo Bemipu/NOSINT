@@ -3,15 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <style>
+        input#toggleSwitch[type=checkbox]{
+            height: 0;
+            width: 0;
+            visibility: hidden;
+        }
+
+        label.toggle {
+            cursor: pointer;
+            width: 60px;
+            height: 30px;
+            top: 6px;
+            background: grey;
+            display: block;
+            border-radius: 100px;
+            position: relative;
+        }
+
+        label.toggle:after {
+            content: '';
+            position: absolute;
+            top: 2.5px;
+            left: 2.5px;
+            width: 25px;
+            height: 25px;
+            background: #fff;
+            border-radius: 25px;
+            transition: 0.3s;
+        }
+        input#toggleSwitch:checked + label {
+            background: #0ffffb;
+        }
+
+        label.toggle:active:after {
+            width: 30px;
+        }
+
+        input#toggleSwitch:checked + label:after {
+            left: calc(100% - 5px);
+            transform: translateX(-100%);
+        }
+        
+        #headerContainer{
+            display: flex;
+            align-items: center;
+            line-height: 0.5;
+        }
+    </style>
 </head>
 <body>
-    <h1>🇳 🇴 🇸 🇮 🇳 🇹</h1> 
-    <label>
-        <input type="checkbox" id="toggleSwitch">
-        Enable Extension
-    </label>
-    <div id="current-url"></div>
-    <script src="popup.js"></script>
+    <div style="width:300px">
+        <div id="headerContainer">
+            <span style="font-size: 40px;">🇳 🇴 🇸 🇮 🇳 🇹</span> 
+            <input type="checkbox" id="toggleSwitch"> 
+            <label class="toggle" for="toggleSwitch">
+                <span class="toggleSwitch-txt"></span>
+            </label>
+        </div>
+        <br>
+        <div id="current-url"></div>
+        <script src="popup.js"></script>
+    </div>
 </body>
 </html>
