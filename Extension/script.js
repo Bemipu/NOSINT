@@ -2,13 +2,19 @@
 // Listen Form Submit Event
 let currentUrl;
 let isEnabled;
+let backendResponse;
+// Fetch Current Url
+let formUrl = window.location.href;
+
+chrome.runtime.sendMessage({ action: "sendRequestToBackend", url: formUrl }, function(response) {
+  backendResponse = response;
+});
 
 document.addEventListener('submit', function(event) {
   if(isEnabled){
-    // Fetch Current URL
-    const formUrl = window.location.href;
     // Prevent form default behavior (submit)
     event.preventDefault();
+
     // Fetch input data
     const formData = {};
     const form = event.target;
@@ -17,7 +23,8 @@ document.addEventListener('submit', function(event) {
       formData[input.name] = input.value;
     });
     // Use Confirm to inspect info
-    const result = confirm('Submit?\nHere is the inputs:\n' + JSON.stringify(formData, null, 2) + '\nThe Current URL:' + formUrl);
+    const result = confirm('Submit?\nHere is the inputs:\n' + JSON.stringify(formData, null, 2) + '\nThe Current URL:' + formUrl + '\n BackendResponse:' + backendResponse);
+    
     if (result) {
       // Yes, submit
       form.submit();

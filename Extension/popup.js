@@ -18,6 +18,6 @@ chrome.storage.sync.get(['toggle'], function(result) {
 // Toggle Event Listener
 toggleSwitch.addEventListener('change', function(event) {
   // Send toggle event to background script
-  chrome.runtime.sendMessage({ toggle: event.target.checked });
+  chrome.runtime.sendMessage({ action: "toggle", toggle: event.target.checked });
   chrome.storage.sync.set({ toggle: event.target.checked });
 });
