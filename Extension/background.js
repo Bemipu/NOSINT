@@ -1,6 +1,6 @@
 let isEnabled;
-let backendIP = "http://127.0.0.1:5000"
-// let backendIP = "http://140.130.34.120:10250/";
+//let backendIP = "http://127.0.0.1:5000"
+let backendIP = "http://140.130.34.120:10250/";
 
 chrome.storage.sync.get(['toggle'], function(result) {
   isEnabled = result.toggle;
@@ -8,7 +8,9 @@ chrome.storage.sync.get(['toggle'], function(result) {
 
 let originTab;
 
-
+async function asyncFetch(url, data) {
+  return await fetch(url, data);
+}
 
 
 // Message Listener (Message from popup.js)
@@ -54,16 +56,29 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
     const formData = new URLSearchParams();
     formData.append('url', message.url);
+    //formData.append('inputData', JSON.stringify(message.inputData))
 
     fetch(`${backendIP}/url`, {method: "POST", body: formData})
       .then(response => response.text()) //response.json()
       .then(sendResponse)
       .catch(function (err) { sendResponse(err.message); });
-
+    
     // 因為 fetch 是非同步的，所以這裡需要返回 true 來告訴 Chrome Extension 等待 sendResponse 的調用
     return true;
   }
 
+  //C
+  // if(message.action === "PWTEST"){
+  //   const formData = new URLSearchParams();
+  //   formData.append('pw', message.data);
+    
+  //   asyncFetch(`${backendIP}/pw`, {method: "POST", body: formData})
+  //     .then(response => response.text()) //response.json()
+  //     .then(sendResponse)
+  //     .catch(function (err) {sendResponse(err.message); });
+
+  //   return true;
+  // }
 
 
   if(message.action === "createWindow"){
@@ -77,9 +92,15 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       height: 500,
       width: 670
     });
+
+    //!chrome.tabs.sendMessage(originTab.id, {action:"gogoiframe" , data:message.data });
+    //chrome.runtime.sendMessage({ action: "changeiframe", data: message.data })
+
+    //message.data
+    
   }
 
-  // if(message.action === "test"){
-  //   chrome.tabs.sendMessage(originTab.id, {action:"test" , test:"TEST" });
-  // }
+  if(message.action === "choice"){
+     chrome.tabs.sendMessage(originTab.id, {action:"choice" , answer:message.answer });
+  }
 });

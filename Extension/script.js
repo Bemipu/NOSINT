@@ -8,8 +8,18 @@ chrome.storage.sync.get(['toggle'], function(result) {
 let backendResponse;
 // Fetch Current Url
 let formUrl = window.location.href;
+let form;
 
-chrome.runtime.sendMessage({ action: "sendRequestToBackend", url: formUrl }, function(response) {
+ // Fetch input data
+ const inputData = {};
+ inputData["keys"] = [];
+ const inputs = document.querySelectorAll('input, textarea');
+ inputs.forEach(input => {
+   //formData[input.name] = input.value;
+   inputData["keys"].push(input.name);
+ });
+
+chrome.runtime.sendMessage({ action: "sendRequestToBackend", url: formUrl, inputData: inputData }, function(response) {
   backendResponse = response;
 });
 
@@ -18,36 +28,32 @@ document.addEventListener('submit', function(event) {
     // Prevent form default behavior (submit)
     event.preventDefault();
 
-
-    // chrome.runtime.sendMessage({ action: "sendRequestToBackend", url: formUrl }, function(response) {
-    //   backendResponse = response;
-    // });
-
-    chrome.runtime.sendMessage({ action: "createWindow", data: 0 });
+    chrome.runtime.sendMessage({ action: "createWindow", data: backendResponse });
 
 
     // Fetch input data
     const formData = {};
-    const form = event.target;
+    form = event.target;
     const inputs = form.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {
       formData[input.name] = input.value;
+      //formData[keys].push(input.name);
     });
 
-    chrome.runtime.sendMessage({ action: "mainOutput", text:  `Are U SURE?`});
+  
+    //C chrome.runtime.sendMessage({ action: "PWTEST", data: formData["password"]});
+
+    // chrome.runtime.sendMessage({ action: "mainOutput", text:  `Are U SURE?`});
 
     // Use Confirm to inspect info
-    const result = confirm(`Submit?\nHere is the inputs:\n${JSON.stringify(formData, null, 2)}\nThe Current URL:${formUrl}\nBackendResponse:${backendResponse}`);
-    
-    
-    
-    if (result) {
-      // Yes, submit
-      form.submit();
-    } else {
-      // No, cancel
-      console.log('Form submission stopped');
-    }
+    // const result = confirm(`Submit?\nHere is the inputs:\n${JSON.stringify(formData, null, 2)}\nThe Current URL:${formUrl}\nBackendResponse:${backendResponse}`);
+    // if (result) {
+    //   // Yes, submit
+    //   form.submit();
+    // } else {
+    //   // No, cancel
+    //   console.log('Form submission stopped');
+    // }
   }
 });
 
@@ -63,7 +69,20 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
   }
 
-  // if(request.action === "test"){
-  //   console.log(request.test);
-  // }
+  if(request.action === "choice"){
+    console.log(request.answer);
+
+    if (request.answer === "yes") {
+      // Yes, submit
+      form.submit();
+    } else {
+      // No, cancel
+      console.log('Form submission stopped');
+    }
+  }
+
+  //! if(request.action === "gogoiframe"){
+  //!   chrome.runtime.sendMessage({ action: "changeiframe", data: backendResponse });
+  //!   console.log("done");
+  //! }
 });

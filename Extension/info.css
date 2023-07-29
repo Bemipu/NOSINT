@@ -1,0 +1,115 @@
+
+/* 加入一些基本的 CSS 樣式 */
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 50px;
+    background-color: white;
+}
+
+body h1 {
+    font-family: Arial, sans-serif;
+    margin: 10px;
+    background-color: white;
+}
+
+.content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    color: #000000;
+    font-size: 1.2rem;
+    font-family: Arial, sans-serif;
+    list-style-type: none;
+}
+
+.content h2 {
+    color: #000000;
+    font-size: 1.2rem;
+    font-family: Arial, sans-serif;
+    list-style-type: none;
+    padding: 1.0rem;
+    margin: 0.5rem 0rem;
+    background-color: #D8D8D8;
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
+}
+
+.content ul li {
+    list-style-type: none;
+    cursor: pointer;
+    color: #484848;
+    text-decoration: none;
+    padding: 1.0rem;
+    margin: 0.5rem 0rem;
+    background-color: #ececec;
+    font-size: 1.2rem;
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
+}
+
+.show-more-btn {
+    cursor: pointer;
+    color: #484848;
+    text-decoration: none;
+    padding: 1.0rem;
+    margin: 0.5rem 0rem;
+    background-color: #D8D8D8;
+    font-size: 1.2rem;
+    font-family: Arial, sans-serif;
+    border-radius: 10px;
+}
+
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+background-color: #eee;
+color: #444;
+cursor: pointer;
+padding: 18px;
+width: 100%;
+border: none;
+text-align: left;
+outline: none;
+font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+padding: 0 18px;
+display: none;
+overflow: hidden;
+background-color: #f1f1f1;
+}
+
+.content {
+padding: 0 18px;
+background-color: white;
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.2s ease-out;
+}
+
+.collapsible:after {
+content: '\02795'; /* Unicode character for "plus" sign (+) */
+font-size: 13px;
+color: white;
+float: right;
+margin-left: 5px;
+}
+
+.active:after {
+content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
